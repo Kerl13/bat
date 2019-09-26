@@ -18,6 +18,7 @@ use crate::config::{get_args_from_config_file, get_args_from_env_var};
 use crate::errors::*;
 use crate::inputfile::InputFile;
 use crate::line_range::{LineRange, LineRanges};
+use crate::line_slice::LineSlice;
 use crate::style::{OutputComponent, OutputComponents, OutputWrap};
 use crate::syntax_mapping::SyntaxMapping;
 use crate::util::transpose;
@@ -81,7 +82,7 @@ pub struct Config<'a> {
     pub use_italic_text: bool,
 
     /// Lines to highlight
-    pub highlight_lines: Vec<usize>,
+    pub highlight_lines: Vec<LineSlice>,
 }
 
 fn is_truecolor_terminal() -> bool {
@@ -272,7 +273,7 @@ impl App {
             highlight_lines: self
                 .matches
                 .values_of("highlight-line")
-                .and_then(|ws| ws.map(|w| w.parse().ok()).collect())
+                .and_then(|ws| ws.map(|w| LineSlice::from(w).ok()).collect())
                 .unwrap_or_default(),
         })
     }

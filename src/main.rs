@@ -31,6 +31,7 @@ mod diff;
 mod dirs;
 mod inputfile;
 mod line_range;
+mod line_slice;
 mod output;
 mod preprocessor;
 mod printer;

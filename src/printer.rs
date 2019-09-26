@@ -28,6 +28,7 @@ use crate::inputfile::{InputFile, InputFileReader};
 use crate::preprocessor::{expand_tabs, replace_nonprintable};
 use crate::style::OutputWrap;
 use crate::terminal::{as_terminal_escaped, to_ansi_color};
+use crate::line_slice::LineSlice::WholeLine;
 
 pub trait Printer {
     fn print_header(&mut self, handle: &mut dyn Write, file: InputFile) -> Result<()>;
@@ -373,7 +374,7 @@ impl<'a> Printer for InteractivePrinter<'a> {
             .config
             .highlight_lines
             .iter()
-            .any(|&l| l == line_number);
+            .any(|&l| l == WholeLine(line_number));
 
         let background_color = self
             .background_color_highlight
